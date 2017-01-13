@@ -1,22 +1,19 @@
 const turnToHtml = function(jsonArr) {
   let returnHtml = "";
 
+  jsonArr.forEach( (each) => {
+    if( typeof each.content === 'string') {
+      returnHtml += `<${each.tag}>${each.content}</${each.tag}>`
+    } else if (Array.isArray(each.content)){
+      returnHtml += `<${each.tag}>${turnToHtml(each.content)}</${each.tag}>`
+    } else if(typeof each.content === 'object') {
+      returnHtml += `<${each.tag}>${turnToHtml([each.content])}</${each.tag}>`
+    } else {
+      returnHtml += `<` + each.tag + '>' + `<` + each.content.tag + '>' + each.content.content + '</' + each.content.tag + '>' + '</' + each.tag + '>'
+    }
+  })
 
-		  jsonArr.forEach( (each) => {
-					if( typeof each.content === 'string') {
-						returnHtml += `<` + each.tag + '>' + each.content + '</' + each.tag + '>'
-					} else if (Array.isArray(each.content)){
-						returnHtml += `<` + each.tag + '>' + turnToHtml(each.content) + '</' + each.tag + '>'
-					} else if(typeof each.content === 'object') {
-						returnHtml += `<` + each.tag + '>' +  turnToHtml([each.content])  + '</' + each.tag + '>'
-					} else {
-						returnHtml += `<` + each.tag + '>' + `<` + each.content.tag + '>' + each.content.content + '</' + each.content.tag + '>' + '</' + each.tag + '>'
-					}
-  		})
-
-
-
- return returnHtml;
+  return returnHtml;
 }
 
 document.getElementById('fileInput').addEventListener('change', (event) => {
@@ -30,8 +27,6 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
     return;
   }
 
-
-
   reader.onload = (jsonFile) => {
     json = reader.result
     if (json.length === 0) {
@@ -41,10 +36,12 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
     }
 
     json = JSON.parse(json);
-    console.log(json);
     document.getElementById('append').innerHTML = turnToHtml(json);
-    
   }
 
   reader.readAsText(file)
+})
+
+document,getElementById('clear').addEventListener('click', (event) => {
+  document.getElementById('append').innerHTML = '';
 })

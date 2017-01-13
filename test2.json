@@ -1,10 +1,7 @@
 [
   {
     "tag": "section",
-    "content": {
-      "tag": "h2",
-      "content": "Welcome to My Page!"
-    }
+    "content": "Welcome to My Page!"
   },
   {
     "tag": "section",
