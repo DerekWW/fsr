@@ -41,7 +41,3 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
 
   reader.readAsText(file)
 })
-
-document,getElementById('clear').addEventListener('click', (event) => {
-  document.getElementById('append').innerHTML = '';
-})
